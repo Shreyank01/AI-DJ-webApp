@@ -14,6 +14,8 @@ left_wristY = 0;
 right_wristX = 0;
 right_wristY = 0;
 
+score_leftWrist = 0;
+
 function gotPoses(results) {
     if(results.length > 0) {
         console.log(results);
@@ -27,7 +29,8 @@ function gotPoses(results) {
         console.log(" Left wrist X = " + left_wristX + " Left wrist Y = " + left_wristY);
         console.log(" Right wrist X = " + right_wristX + " Right wrist Y = " + right_wristY);
 
-
+        score_leftWrist = results[0].pose.keypoints[9].score;
+        console.log( "Score of left wrist is " + score_leftWrist);
     }
 }
 
@@ -39,7 +42,17 @@ function draw() {
     image(video ,0 ,0 ,600 ,500);
     stroke("red");
     fill("red");
-    
+
+    if(score_leftWrist > 0.2) {
+
+    circle(left_wristX, left_wristY , 20);
+    In_num_left_wristY = Number(left_wristY);
+    remove_decimals = Math.floor(In_num_left_wristY);
+    volume= remove_decimals/500;
+    document.getElementById("volume").innerHTML = "Volume : " + volume;
+    song.setVolume(volume);
+
+    }
 }
 
 song = "";
